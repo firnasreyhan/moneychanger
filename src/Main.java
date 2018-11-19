@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int pilih_menu;
-        System.out.println("================================ Menu ================================");
+        System.out.println("================================ 1Menu1 ================================");
         System.out.println("1.\tKurs Mata Uang Terkini");
         System.out.println("2.\tKelola Kurs Mata Uang");
         System.out.println("3.\tTransaksi");
