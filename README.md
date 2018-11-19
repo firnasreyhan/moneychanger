@@ -1,2 +1,2 @@
 # moneychanger
-Aplikasi Penukaran Mata Uang
+Aplikasi penukaran mata uang berbasis java
