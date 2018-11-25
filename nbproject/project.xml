@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>Responsi_PrakPD2</name>
+            <name>moneychanger</name>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
