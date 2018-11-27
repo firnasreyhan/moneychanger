@@ -89,7 +89,7 @@ public class Main extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"IDR", "0", "0", "0"}
+
             },
             new String [] {
                 "Mata Uang", "Kurs Jual", "Kurs Tengah", "Kurs Beli"
