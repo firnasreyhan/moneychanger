@@ -5,6 +5,10 @@
  */
 package gui;
 
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Rey
@@ -14,8 +18,12 @@ public class Kurs extends javax.swing.JFrame {
     /**
      * Creates new form MenuAdmin
      */
+    String kurs_lama = null;
+
     public Kurs() {
         initComponents();
+        kosong();
+        load_table();
     }
 
     /**
@@ -33,14 +41,17 @@ public class Kurs extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        tb_matauang = new javax.swing.JTextField();
+        tb_kursjual = new javax.swing.JTextField();
+        tb_kursbeli = new javax.swing.JTextField();
+        bt_tambah_kurs = new javax.swing.JButton();
+        bt_edit_kurs = new javax.swing.JButton();
+        bt_hapus_kurs = new javax.swing.JButton();
+        lb_kursbeli = new javax.swing.JLabel();
+        lb_kursjual = new javax.swing.JLabel();
+        bt_clear = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_kurs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +79,7 @@ public class Kurs extends javax.swing.JFrame {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kurs", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 18))); // NOI18N
+        jPanel2.setPreferredSize(new java.awt.Dimension(485, 190));
 
         jLabel2.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel2.setText("Kode (Mata Uang)");
@@ -78,11 +90,55 @@ public class Kurs extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel4.setText("Kurs Beli");
 
-        jButton1.setText("Tambah");
+        tb_kursjual.setText("0");
+        tb_kursjual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tb_kursjualKeyTyped(evt);
+            }
+        });
 
-        jButton2.setText("Edit");
+        tb_kursbeli.setText("0");
+        tb_kursbeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tb_kursbeliKeyTyped(evt);
+            }
+        });
 
-        jButton3.setText("Hapus");
+        bt_tambah_kurs.setText("Tambah");
+        bt_tambah_kurs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_tambah_kursActionPerformed(evt);
+            }
+        });
+
+        bt_edit_kurs.setText("Edit");
+        bt_edit_kurs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_edit_kursActionPerformed(evt);
+            }
+        });
+
+        bt_hapus_kurs.setText("Hapus");
+        bt_hapus_kurs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_hapus_kursActionPerformed(evt);
+            }
+        });
+
+        lb_kursbeli.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        lb_kursbeli.setForeground(new java.awt.Color(255, 0, 0));
+        lb_kursbeli.setText("Masukkan Angka!");
+
+        lb_kursjual.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        lb_kursjual.setForeground(new java.awt.Color(255, 0, 0));
+        lb_kursjual.setText("Masukkan Angka!");
+
+        bt_clear.setText("Clear");
+        bt_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_clearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -90,43 +146,62 @@ public class Kurs extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(93, 93, 93)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(tb_kursbeli, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lb_kursbeli))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(tb_kursjual, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lb_kursjual))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(bt_tambah_kurs, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bt_edit_kurs, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bt_hapus_kurs, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(7, 7, 7)
+                                .addComponent(bt_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(38, 38, 38)
+                        .addComponent(tb_matauang, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tb_matauang, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tb_kursjual, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lb_kursjual)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jButton3))
-                .addContainerGap())
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tb_kursbeli, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lb_kursbeli)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_tambah_kurs, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_edit_kurs, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_hapus_kurs, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_kurs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -142,7 +217,12 @@ public class Kurs extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tbl_kurs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_kursMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_kurs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,8 +232,8 @@ public class Kurs extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -161,14 +241,147 @@ public class Kurs extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tb_kursjualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tb_kursjualKeyTyped
+        // TODO add your handling code here:
+        try {
+            float i = Float.parseFloat(tb_kursjual.getText());
+            lb_kursjual.setVisible(false);
+        } catch (NumberFormatException e) {
+            lb_kursjual.setVisible(true);
+        }
+    }//GEN-LAST:event_tb_kursjualKeyTyped
+
+    private void tb_kursbeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tb_kursbeliKeyTyped
+        // TODO add your handling code here:
+        try {
+            float i = Float.parseFloat(tb_kursbeli.getText());
+            lb_kursbeli.setVisible(false);
+        } catch (NumberFormatException e) {
+            lb_kursbeli.setVisible(true);
+        }
+    }//GEN-LAST:event_tb_kursbeliKeyTyped
+
+    private void bt_tambah_kursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_tambah_kursActionPerformed
+        // TODO add your handling code here:
+        if (!tb_matauang.getText().equalsIgnoreCase("")) {
+            try {
+                String sql_kurs = "INSERT INTO kurs VALUES ('" + tb_matauang.getText() + "','" + tb_kursjual.getText() + "','" + ((Float.parseFloat(tb_kursjual.getText()) + Float.parseFloat(tb_kursbeli.getText())) / 2) + "','" + tb_kursbeli.getText() + "')";
+                String sql_stok = "INSERT INTO stok VALUES ('" + tb_matauang.getText() + "','0','0','0')";
+                java.sql.Connection conn = (Connection) config.configDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql_kurs);
+                pst.execute();
+                pst = conn.prepareStatement(sql_stok);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Penyimpanan data berhasil");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            load_table();
+            kosong();
+        } else {
+            JOptionPane.showMessageDialog(null, "Kode tidak boleh kosong!");
+        }
+    }//GEN-LAST:event_bt_tambah_kursActionPerformed
+
+    private void tbl_kursMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_kursMouseClicked
+        // TODO add your handling code here:
+        // menampilkan data kedalam form pengisian:
+        int baris = tbl_kurs.rowAtPoint(evt.getPoint());
+        String matauang = tbl_kurs.getValueAt(baris, 0).toString();
+        tb_matauang.setText(matauang);
+        String kursjual = tbl_kurs.getValueAt(baris, 1).toString();
+        tb_kursjual.setText(kursjual);
+        String kursbeli = tbl_kurs.getValueAt(baris, 3).toString();
+        tb_kursbeli.setText(kursbeli);
+        kurs_lama = matauang;
+    }//GEN-LAST:event_tbl_kursMouseClicked
+
+    private void bt_edit_kursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_kursActionPerformed
+        // TODO add your handling code here:
+        // Edit Data
+        if (kurs_lama != null) {
+            try {
+                String sql = "UPDATE kurs SET id_kurs = '" + tb_matauang.getText() + "', kurs_jual = '" + tb_kursjual.getText() + "', kurs_tengah = '" + ((Float.parseFloat(tb_kursjual.getText()) + Float.parseFloat(tb_kursbeli.getText())) / 2) + "',kurs_beli= '" + tb_kursbeli.getText() + "' WHERE id_kurs = '" + kurs_lama + "'";
+                java.sql.Connection conn = (Connection) config.configDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
+            }
+            load_table();
+            kosong();
+        } else {
+            JOptionPane.showMessageDialog(null, "Perubahan data gagal");
+        }
+    }//GEN-LAST:event_bt_edit_kursActionPerformed
+
+    private void bt_hapus_kursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_hapus_kursActionPerformed
+        // TODO add your handling code here:
+        // fungsi hapus data
+        if (kurs_lama != null) {
+            try {
+                String sql_kurs = "delete from kurs where id_kurs='" + kurs_lama + "'";
+                String sql_stok = "delete from stok where id_kurs='" + kurs_lama + "'";
+                java.sql.Connection conn = (Connection) config.configDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql_stok);
+                pst.execute();
+                pst = conn.prepareStatement(sql_kurs);
+                pst.execute();
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            load_table();
+            kosong();
+        } else {
+            JOptionPane.showMessageDialog(this, "Data tidak berhasil dihapus");
+        }
+    }//GEN-LAST:event_bt_hapus_kursActionPerformed
+
+    private void bt_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_clearActionPerformed
+        // TODO add your handling code here:
+        kosong();
+    }//GEN-LAST:event_bt_clearActionPerformed
+
+    private void kosong() {
+        tb_matauang.setText("");
+        tb_kursjual.setText("0");
+        tb_kursbeli.setText("0");
+        kurs_lama = null;
+    }
+
+    private void load_table() {
+        // membuat tampilan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Mata Uang");
+        model.addColumn("Kurs Jual");
+        model.addColumn("Kurs Tengah");
+        model.addColumn("Kurs Beli");
+
+        //menampilkan data database kedalam tabel
+        try {
+            int no = 1;
+            String sql = "SELECT * FROM kurs WHERE kurs.ID_KURS NOT IN(\"IDR\")";
+            java.sql.Connection conn = (Connection) config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            while (res.next()) {
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4)});
+            }
+            tbl_kurs.setModel(model);
+        } catch (Exception e) {
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -204,14 +417,17 @@ public class Kurs extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Kurs().setVisible(true);
+                lb_kursjual.setVisible(false);
+                lb_kursbeli.setVisible(false);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton bt_clear;
+    private javax.swing.JButton bt_edit_kurs;
+    private javax.swing.JButton bt_hapus_kurs;
+    private javax.swing.JButton bt_tambah_kurs;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -219,9 +435,11 @@ public class Kurs extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private static javax.swing.JLabel lb_kursbeli;
+    private static javax.swing.JLabel lb_kursjual;
+    private javax.swing.JTextField tb_kursbeli;
+    private javax.swing.JTextField tb_kursjual;
+    private javax.swing.JTextField tb_matauang;
+    private javax.swing.JTable tbl_kurs;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.sql.Connection;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +22,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        load_table();
     }
 
     /**
@@ -37,7 +39,7 @@ public class Main extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_kurs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,7 +89,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_kurs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -103,7 +105,8 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        tbl_kurs.setEnabled(false);
+        jScrollPane2.setViewportView(tbl_kurs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,6 +142,29 @@ public class Main extends javax.swing.JFrame {
         new Transaksi().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void load_table() {
+        // membuat tampilan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Mata Uang");
+        model.addColumn("Kurs Jual");
+        model.addColumn("Kurs Tengah");
+        model.addColumn("Kurs Beli");
+
+        //menampilkan data database kedalam tabel
+        try {
+            int no = 1;
+            String sql = "SELECT * FROM kurs WHERE kurs.ID_KURS NOT IN(\"IDR\")";
+            java.sql.Connection conn = (Connection) config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            while (res.next()) {
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4)});
+            }
+            tbl_kurs.setModel(model);
+        } catch (Exception e) {
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -169,8 +195,6 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.addRow(new Object[]{"USD", 1, 2, 3});
             }
         });
     }
@@ -181,6 +205,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private static javax.swing.JTable jTable1;
+    private static javax.swing.JTable tbl_kurs;
     // End of variables declaration//GEN-END:variables
 }
