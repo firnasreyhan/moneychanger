@@ -279,7 +279,7 @@ public class Transaksi extends javax.swing.JFrame {
                 }
             }
             temp_mu_tukar = (ratusan_keluar * 100) + (puluhan_keluar * 10) + satuan_keluar;
-            JOptionPane.showMessageDialog(this, hasil + " | " + mu_tukar + " | " + temp_mu_tukar);
+            JOptionPane.showMessageDialog(this, hasil + " | " + (int) mu_tukar + " | " + temp_mu_tukar);
             JOptionPane.showMessageDialog(this, "Keluar : " + ratusan_keluar + " | " + puluhan_keluar + " | " + satuan_keluar);
             JOptionPane.showMessageDialog(this, "Masuk : " + ratusan_masuk + " | " + puluhan_masuk + " | " + satuan_masuk);
             if (temp_mu_tukar == (int) mu_tukar) {
@@ -293,11 +293,20 @@ public class Transaksi extends javax.swing.JFrame {
                             + "SATUAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_satuan + satuan_masuk)
                             + "', PULUHAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_puluhan + puluhan_masuk)
                             + "', RATUSAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_ratusan + ratusan_masuk) 
-                            + "', WHERE ID_KURS='" + cb_matauangawal.getSelectedItem() + "'";
+                            + "' WHERE ID_KURS='" + cb_matauangawal.getSelectedItem() + "'";
+                    String sql_stok_keluar = "UPDATE stok SET "
+                            + "SATUAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_satuan - satuan_keluar)
+                            + "', PULUHAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_puluhan - puluhan_keluar)
+                            + "', RATUSAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan - ratusan_keluar) 
+                            + "' WHERE ID_KURS='" + cb_matauangtujuan.getSelectedItem() + "'";
                     java.sql.Connection conn = (Connection) config.configDB();
-                    java.sql.PreparedStatement pst = conn.prepareStatement(sql_kurs);
+                    java.sql.PreparedStatement pst;
+                    pst = conn.prepareStatement(sql_kurs);
                     pst.execute();
-                    JOptionPane.showMessageDialog(null, "Penyimpanan data berhasil");
+                    pst = conn.prepareStatement(sql_stok_masuk);
+                    pst.execute();
+                    pst = conn.prepareStatement(sql_stok_keluar);
+                    pst.execute();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, e.getMessage());
                 }
