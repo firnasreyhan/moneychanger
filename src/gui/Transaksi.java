@@ -5,6 +5,12 @@
  */
 package gui;
 
+import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Rey
@@ -14,8 +20,13 @@ public class Transaksi extends javax.swing.JFrame {
     /**
      * Creates new form Transaksi
      */
+    ArrayList<Kurs_Helper> matauang_item = new ArrayList<Kurs_Helper>();
+    ArrayList<Stok_Helper> stok_item = new ArrayList<Stok_Helper>();
+    DecimalFormat df = new DecimalFormat("#.##");
+
     public Transaksi() {
         initComponents();
+        load_kurs();
     }
 
     /**
@@ -69,6 +80,11 @@ public class Transaksi extends javax.swing.JFrame {
 
         bt_submit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         bt_submit.setText("Submit");
+        bt_submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_submitActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transaksi", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 18))); // NOI18N
 
@@ -81,15 +97,13 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel4.setText("Mata Uang Awal");
 
-        cb_matauangawal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel5.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel5.setText("Nominal");
 
+        tb_nominal.setText("0");
+
         jLabel6.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel6.setText("Mata Uang Tujuan");
-
-        cb_matauangtujuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -166,9 +180,160 @@ public class Transaksi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bt_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_submitActionPerformed
+        // TODO add your handling code here:
+        float hasil, hasil_temp, mu_awal, mu_tukar, temp_mu_tukar;
+        int satuan_masuk, puluhan_masuk, ratusan_masuk;
+        int satuan_keluar, puluhan_keluar, ratusan_keluar;
+        hasil = 0;
+        hasil_temp = 0;
+        satuan_masuk = 0;
+        puluhan_masuk = 0;
+        ratusan_masuk = 0;
+        satuan_keluar = 0;
+        puluhan_keluar = 0;
+        ratusan_keluar = 0;
+        if (!tb_nik.getText().equalsIgnoreCase("")) {
+            if (!tb_nama.getText().equalsIgnoreCase("")) {
+                if (cb_matauangawal.getSelectedItem() != cb_matauangtujuan.getSelectedItem()) {
+                    if (!tb_nominal.getText().equalsIgnoreCase("")) {
+                        if (cb_matauangawal.getSelectedItem().equals("IDR") && !cb_matauangtujuan.getSelectedItem().equals("IDR")) {
+                            if (Float.parseFloat(tb_nominal.getText()) >= 20000) {
+                                hasil = Float.parseFloat(tb_nominal.getText()) / matauang_item.get(cb_matauangtujuan.getSelectedIndex()).kurs_jual;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Nominal penukaran minimal 20000 " + cb_matauangawal.getSelectedItem());
+                            }
+                        } else if (!cb_matauangawal.getSelectedItem().equals("IDR") && cb_matauangtujuan.getSelectedItem().equals("IDR")) {
+                            if (Float.parseFloat(tb_nominal.getText()) >= 1) {
+                                hasil = Float.parseFloat(tb_nominal.getText()) * matauang_item.get(cb_matauangawal.getSelectedIndex()).kurs_beli;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Nominal penukaran minimal 1 " + cb_matauangawal.getSelectedItem());
+                            }
+                        } else {
+                            if (Float.parseFloat(tb_nominal.getText()) >= 1) {
+                                hasil_temp = Float.parseFloat(tb_nominal.getText()) * matauang_item.get(cb_matauangawal.getSelectedIndex()).kurs_tengah;
+                                hasil = hasil_temp / matauang_item.get(cb_matauangtujuan.getSelectedIndex()).kurs_tengah;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Nominal penukaran minimal 1 " + cb_matauangawal.getSelectedItem());
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Masukkan nominal yang benar!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Mata uang yang ditukar tidak boleh sama!");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Nama tidak boleh kosong!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "NIK tidak boleh kosong!");
+        }
+        mu_tukar = Float.parseFloat(df.format(hasil));
+        mu_awal = Float.parseFloat(tb_nominal.getText());
+        if (hasil != 0) {
+            if (cb_matauangtujuan.getSelectedItem().equals("IDR")) {
+                mu_tukar = mu_tukar / 1000;
+            }
+            temp_mu_tukar = mu_tukar;
+            if (cb_matauangawal.getSelectedItem().equals("IDR")) {
+                mu_awal = mu_awal / 1000;
+            }
+            ratusan_masuk = (int) mu_awal / 100;
+            mu_awal = mu_awal % 100;
+            puluhan_masuk = (int) mu_awal / 10;
+            mu_awal = mu_awal % 10;
+            satuan_masuk = (int) mu_awal / 1;
+            if (temp_mu_tukar >= 100) {
+                if (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan != 0) {
+                    ratusan_keluar = (int) temp_mu_tukar / 100;
+                    temp_mu_tukar = temp_mu_tukar % 100;
+                    if (ratusan_keluar > stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan) {
+                        temp_mu_tukar = temp_mu_tukar + ((ratusan_keluar - stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan) * 100);
+                        ratusan_keluar = stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan;
+                    }
+                } else {
+                    ratusan_keluar = 0;
+                }
+            }
+            if (temp_mu_tukar >= 10) {
+                if (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_puluhan != 0) {
+                    puluhan_keluar = (int) temp_mu_tukar / 10;
+                    temp_mu_tukar = temp_mu_tukar % 10;
+                    if (puluhan_keluar > stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_puluhan) {
+                        temp_mu_tukar = temp_mu_tukar + ((puluhan_keluar - stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_puluhan) * 10);
+                        puluhan_keluar = stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_puluhan;
+                    }
+                } else {
+                    puluhan_keluar = 0;
+                }
+            }
+            if (temp_mu_tukar >= 1) {
+                if (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_satuan != 0) {
+                    satuan_keluar = (int) temp_mu_tukar / 1;
+                    if (satuan_keluar > stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_satuan) {
+                        satuan_keluar = stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_satuan;
+                    }
+                } else {
+                    satuan_keluar = 0;
+                }
+            }
+            temp_mu_tukar = (ratusan_keluar * 100) + (puluhan_keluar * 10) + satuan_keluar;
+            JOptionPane.showMessageDialog(this, hasil + " | " + mu_tukar + " | " + temp_mu_tukar);
+            JOptionPane.showMessageDialog(this, "Keluar : " + ratusan_keluar + " | " + puluhan_keluar + " | " + satuan_keluar);
+            JOptionPane.showMessageDialog(this, "Masuk : " + ratusan_masuk + " | " + puluhan_masuk + " | " + satuan_masuk);
+            if (temp_mu_tukar == (int) mu_tukar) {
+                try {
+                    String sql_kurs = "INSERT INTO transaksi (NIK, NAMA, MATAUANG_AWAL, NOMINAL_AWAL,"
+                            + " MATAUANG_TUKAR, NOMINAL_TUKAR) VALUES ('" + tb_nik.getText() + "','"
+                            + tb_nama.getText() + "','" + cb_matauangawal.getSelectedItem() + "','"
+                            + tb_nominal.getText() + "','" + cb_matauangtujuan.getSelectedItem() + "','"
+                            + df.format(hasil) + "')";
+                    String sql_stok_masuk = "UPDATE stok SET "
+                            + "SATUAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_satuan + satuan_masuk)
+                            + "', PULUHAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_puluhan + puluhan_masuk)
+                            + "', RATUSAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_ratusan + ratusan_masuk) 
+                            + "', WHERE ID_KURS='" + cb_matauangawal.getSelectedItem() + "'";
+                    java.sql.Connection conn = (Connection) config.configDB();
+                    java.sql.PreparedStatement pst = conn.prepareStatement(sql_kurs);
+                    pst.execute();
+                    JOptionPane.showMessageDialog(null, "Penyimpanan data berhasil");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Stok kami tidak cukup");
+            }
+        }
+    }//GEN-LAST:event_bt_submitActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    private void load_kurs() {
+        //menampilkan data database kedalam tabel
+        try {
+            String sql_matauang = "select * from kurs";
+            String sql_stok = "select * from stok";
+            java.sql.Connection conn = (Connection) config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res;
+            res = stm.executeQuery(sql_matauang);
+            while (res.next()) {
+                matauang_item.add(new Kurs_Helper(res.getString(1), Float.parseFloat(res.getString(2)), Float.parseFloat(res.getString(3)), Float.parseFloat(res.getString(4))));
+            }
+            res = stm.executeQuery(sql_stok);
+            while (res.next()) {
+                stok_item.add(new Stok_Helper(res.getString(1), Integer.parseInt(res.getString(2)), Integer.parseInt(res.getString(3)), Integer.parseInt(res.getString(4))));
+            }
+            for (Kurs_Helper item : matauang_item) {
+                cb_matauangawal.addItem(item.mata_uang);
+                cb_matauangtujuan.addItem(item.mata_uang);
+            }
+        } catch (Exception e) {
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

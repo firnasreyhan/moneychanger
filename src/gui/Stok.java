@@ -350,7 +350,6 @@ public class Stok extends javax.swing.JFrame {
 
         //menampilkan data database kedalam tabel
         try {
-            int no = 1;
             String sql = "SELECT * FROM stok";
             java.sql.Connection conn = (Connection) config.configDB();
             java.sql.Statement stm = conn.createStatement();
