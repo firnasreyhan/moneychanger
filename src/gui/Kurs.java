@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.awt.Frame;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -52,8 +53,13 @@ public class Kurs extends javax.swing.JFrame {
         bt_clear = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_kurs = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        bt_close = new javax.swing.JButton();
+        bt_back = new javax.swing.JButton();
+        bt_minimize = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 0));
 
@@ -105,6 +111,7 @@ public class Kurs extends javax.swing.JFrame {
         });
 
         bt_tambah_kurs.setText("Tambah");
+        bt_tambah_kurs.setFocusable(false);
         bt_tambah_kurs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_tambah_kursActionPerformed(evt);
@@ -112,6 +119,7 @@ public class Kurs extends javax.swing.JFrame {
         });
 
         bt_edit_kurs.setText("Edit");
+        bt_edit_kurs.setFocusable(false);
         bt_edit_kurs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_edit_kursActionPerformed(evt);
@@ -119,6 +127,7 @@ public class Kurs extends javax.swing.JFrame {
         });
 
         bt_hapus_kurs.setText("Hapus");
+        bt_hapus_kurs.setFocusable(false);
         bt_hapus_kurs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_hapus_kursActionPerformed(evt);
@@ -134,6 +143,7 @@ public class Kurs extends javax.swing.JFrame {
         lb_kursjual.setText("Masukkan Angka!");
 
         bt_clear.setText("Clear");
+        bt_clear.setFocusable(false);
         bt_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_clearActionPerformed(evt);
@@ -224,6 +234,49 @@ public class Kurs extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_kurs);
 
+        bt_close.setBackground(new java.awt.Color(255, 0, 0));
+        bt_close.setFocusable(false);
+        bt_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_closeActionPerformed(evt);
+            }
+        });
+
+        bt_back.setBackground(new java.awt.Color(255, 255, 0));
+        bt_back.setFocusable(false);
+        bt_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_backActionPerformed(evt);
+            }
+        });
+
+        bt_minimize.setBackground(new java.awt.Color(255, 255, 255));
+        bt_minimize.setFocusable(false);
+        bt_minimize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_minimizeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(bt_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_back, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bt_back, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(bt_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(bt_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -235,10 +288,13 @@ public class Kurs extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,15 +304,16 @@ public class Kurs extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tb_kursjualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tb_kursjualKeyTyped
         // TODO add your handling code here:
         try {
             float i = Float.parseFloat(tb_kursjual.getText());
-            lb_kursjual.setVisible(false);
+            lb_kursjual.setText("");
         } catch (NumberFormatException e) {
-            lb_kursjual.setVisible(true);
+            lb_kursjual.setText("Masukkan angka!");
         }
     }//GEN-LAST:event_tb_kursjualKeyTyped
 
@@ -264,9 +321,9 @@ public class Kurs extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             float i = Float.parseFloat(tb_kursbeli.getText());
-            lb_kursbeli.setVisible(false);
+            lb_kursbeli.setText("");
         } catch (NumberFormatException e) {
-            lb_kursbeli.setVisible(true);
+            lb_kursbeli.setText("Masukkan angka!");
         }
     }//GEN-LAST:event_tb_kursbeliKeyTyped
 
@@ -353,10 +410,28 @@ public class Kurs extends javax.swing.JFrame {
         kosong();
     }//GEN-LAST:event_bt_clearActionPerformed
 
+    private void bt_minimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_minimizeActionPerformed
+        // TODO add your handling code here:
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_bt_minimizeActionPerformed
+
+    private void bt_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_closeActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_closeActionPerformed
+
+    private void bt_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_backActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Admin_Menu().setVisible(true);
+    }//GEN-LAST:event_bt_backActionPerformed
+
     private void kosong() {
         tb_matauang.setText("");
         tb_kursjual.setText("0");
         tb_kursbeli.setText("0");
+        lb_kursbeli.setText("");
+        lb_kursjual.setText("");
         kurs_lama = null;
     }
 
@@ -416,16 +491,19 @@ public class Kurs extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Kurs().setVisible(true);
-                lb_kursjual.setVisible(false);
-                lb_kursbeli.setVisible(false);
+                lb_kursjual.setText("");
+                lb_kursbeli.setText("");
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_back;
     private javax.swing.JButton bt_clear;
+    private javax.swing.JButton bt_close;
     private javax.swing.JButton bt_edit_kurs;
     private javax.swing.JButton bt_hapus_kurs;
+    private javax.swing.JButton bt_minimize;
     private javax.swing.JButton bt_tambah_kurs;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -433,6 +511,7 @@ public class Kurs extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JLabel lb_kursbeli;
     private static javax.swing.JLabel lb_kursjual;

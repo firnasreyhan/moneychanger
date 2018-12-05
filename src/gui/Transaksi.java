@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.awt.Frame;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -52,8 +53,13 @@ public class Transaksi extends javax.swing.JFrame {
         tb_nominal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cb_matauangtujuan = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        bt_close = new javax.swing.JButton();
+        bt_back = new javax.swing.JButton();
+        bt_minimize = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 0));
 
@@ -80,6 +86,7 @@ public class Transaksi extends javax.swing.JFrame {
 
         bt_submit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         bt_submit.setText("Submit");
+        bt_submit.setFocusable(false);
         bt_submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_submitActionPerformed(evt);
@@ -154,6 +161,50 @@ public class Transaksi extends javax.swing.JFrame {
                     .addComponent(jLabel6)))
         );
 
+        bt_close.setBackground(new java.awt.Color(255, 0, 0));
+        bt_close.setFocusable(false);
+        bt_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_closeActionPerformed(evt);
+            }
+        });
+
+        bt_back.setBackground(new java.awt.Color(255, 255, 0));
+        bt_back.setFocusable(false);
+        bt_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_backActionPerformed(evt);
+            }
+        });
+
+        bt_minimize.setBackground(new java.awt.Color(255, 255, 255));
+        bt_minimize.setFocusable(false);
+        bt_minimize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_minimizeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(bt_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_back, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(bt_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_back, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(bt_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,10 +216,13 @@ public class Transaksi extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,6 +232,7 @@ public class Transaksi extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_submitActionPerformed
@@ -279,9 +334,6 @@ public class Transaksi extends javax.swing.JFrame {
                 }
             }
             temp_mu_tukar = (ratusan_keluar * 100) + (puluhan_keluar * 10) + satuan_keluar;
-            JOptionPane.showMessageDialog(this, hasil + " | " + (int) mu_tukar + " | " + temp_mu_tukar);
-            JOptionPane.showMessageDialog(this, "Keluar : " + ratusan_keluar + " | " + puluhan_keluar + " | " + satuan_keluar);
-            JOptionPane.showMessageDialog(this, "Masuk : " + ratusan_masuk + " | " + puluhan_masuk + " | " + satuan_masuk);
             if (temp_mu_tukar == (int) mu_tukar) {
                 try {
                     String sql_kurs = "INSERT INTO transaksi (NIK, NAMA, MATAUANG_AWAL, NOMINAL_AWAL,"
@@ -292,12 +344,12 @@ public class Transaksi extends javax.swing.JFrame {
                     String sql_stok_masuk = "UPDATE stok SET "
                             + "SATUAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_satuan + satuan_masuk)
                             + "', PULUHAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_puluhan + puluhan_masuk)
-                            + "', RATUSAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_ratusan + ratusan_masuk) 
+                            + "', RATUSAN='" + (stok_item.get(cb_matauangawal.getSelectedIndex()).stok_ratusan + ratusan_masuk)
                             + "' WHERE ID_KURS='" + cb_matauangawal.getSelectedItem() + "'";
                     String sql_stok_keluar = "UPDATE stok SET "
                             + "SATUAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_satuan - satuan_keluar)
                             + "', PULUHAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_puluhan - puluhan_keluar)
-                            + "', RATUSAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan - ratusan_keluar) 
+                            + "', RATUSAN='" + (stok_item.get(cb_matauangtujuan.getSelectedIndex()).stok_ratusan - ratusan_keluar)
                             + "' WHERE ID_KURS='" + cb_matauangtujuan.getSelectedItem() + "'";
                     java.sql.Connection conn = (Connection) config.configDB();
                     java.sql.PreparedStatement pst;
@@ -307,6 +359,12 @@ public class Transaksi extends javax.swing.JFrame {
                     pst.execute();
                     pst = conn.prepareStatement(sql_stok_keluar);
                     pst.execute();
+                    JOptionPane.showMessageDialog(this, "Uang yang anda dapat     :   " + df.format(hasil) + " " + cb_matauangtujuan.getSelectedItem()
+                            + "\n----------------------------------------------------------"
+                            + "\nSatuan      : " + satuan_keluar
+                            + "\nPuluhan    : " + puluhan_keluar
+                            + "\nRatusan    : " + ratusan_keluar
+                            + "\n----------------------------------------------------------");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, e.getMessage());
                 }
@@ -315,6 +373,22 @@ public class Transaksi extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_bt_submitActionPerformed
+
+    private void bt_minimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_minimizeActionPerformed
+        // TODO add your handling code here:
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_bt_minimizeActionPerformed
+
+    private void bt_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_closeActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_closeActionPerformed
+
+    private void bt_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_backActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Main_Menu().setVisible(true);
+    }//GEN-LAST:event_bt_backActionPerformed
 
     /**
      * @param args the command line arguments
@@ -376,6 +450,9 @@ public class Transaksi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_back;
+    private javax.swing.JButton bt_close;
+    private javax.swing.JButton bt_minimize;
     private javax.swing.JButton bt_submit;
     private javax.swing.JComboBox<String> cb_matauangawal;
     private javax.swing.JComboBox<String> cb_matauangtujuan;
@@ -387,6 +464,7 @@ public class Transaksi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField tb_nama;
     private javax.swing.JTextField tb_nik;
     private javax.swing.JTextField tb_nominal;

@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.awt.Frame;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -53,8 +54,13 @@ public class Stok extends javax.swing.JFrame {
         bt_clear = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_stok = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        bt_close = new javax.swing.JButton();
+        bt_back = new javax.swing.JButton();
+        bt_minimize = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 0));
 
@@ -115,6 +121,7 @@ public class Stok extends javax.swing.JFrame {
         });
 
         bt_edit_stok.setText("Edit");
+        bt_edit_stok.setFocusable(false);
         bt_edit_stok.setName("bt_edit_stok"); // NOI18N
         bt_edit_stok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +151,7 @@ public class Stok extends javax.swing.JFrame {
         tb_matauang.setEnabled(false);
 
         bt_clear.setText("Clear");
+        bt_clear.setFocusable(false);
         bt_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_clearActionPerformed(evt);
@@ -235,6 +243,50 @@ public class Stok extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_stok);
 
+        bt_close.setBackground(new java.awt.Color(255, 0, 0));
+        bt_close.setFocusable(false);
+        bt_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_closeActionPerformed(evt);
+            }
+        });
+
+        bt_back.setBackground(new java.awt.Color(255, 255, 0));
+        bt_back.setFocusable(false);
+        bt_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_backActionPerformed(evt);
+            }
+        });
+
+        bt_minimize.setBackground(new java.awt.Color(255, 255, 255));
+        bt_minimize.setFocusable(false);
+        bt_minimize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_minimizeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(bt_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_back, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(bt_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_back, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -246,10 +298,13 @@ public class Stok extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,15 +314,16 @@ public class Stok extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tb_ratusanKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tb_ratusanKeyTyped
         // TODO add your handling code here:
         try {
             int i = Integer.parseInt(tb_ratusan.getText());
-            lb_ratusan.setVisible(false);
+            lb_ratusan.setText("");
         } catch (NumberFormatException e) {
-            lb_ratusan.setVisible(true);
+            lb_ratusan.setText("Masukkan angka!");
         }
 
     }//GEN-LAST:event_tb_ratusanKeyTyped
@@ -276,9 +332,9 @@ public class Stok extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             int i = Integer.parseInt(tb_satuan.getText());
-            lb_satuan.setVisible(false);
+            lb_satuan.setText("");
         } catch (NumberFormatException e) {
-            lb_satuan.setVisible(true);
+            lb_satuan.setText("Masukkan angka!");
         }
     }//GEN-LAST:event_tb_satuanKeyTyped
 
@@ -286,9 +342,9 @@ public class Stok extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             int i = Integer.parseInt(tb_puluhan.getText());
-            lb_puluhan.setVisible(false);
+            lb_puluhan.setText("");
         } catch (NumberFormatException e) {
-            lb_puluhan.setVisible(true);
+            lb_puluhan.setText("Masukkan angka!");
         }
     }//GEN-LAST:event_tb_puluhanKeyTyped
 
@@ -304,15 +360,17 @@ public class Stok extends javax.swing.JFrame {
         tb_puluhan.setText(puluhan);
         String ratusan = tbl_stok.getValueAt(baris, 3).toString();
         tb_ratusan.setText(ratusan);
-        kurs_lama = matauang;
     }//GEN-LAST:event_tbl_stokMouseClicked
 
     private void bt_edit_stokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_stokActionPerformed
         // TODO add your handling code here:
         // Edit Data
-        if (kurs_lama != null) {
+        if (!tb_matauang.getText().equalsIgnoreCase("")) {
             try {
-                String sql = "UPDATE stok SET satuan = '" + tb_satuan.getText() + "', puluhan = '" + tb_puluhan.getText() + "', ratusan = '" + tb_ratusan.getText() + "' WHERE id_kurs = '" + tb_matauang.getText() + "'";
+                String sql = "UPDATE stok SET satuan = '" + tb_satuan.getText()
+                        + "', puluhan = '" + tb_puluhan.getText() + "', ratusan = '"
+                        + tb_ratusan.getText() + "' WHERE id_kurs = '"
+                        + tb_matauang.getText() + "'";
                 java.sql.Connection conn = (Connection) config.configDB();
                 java.sql.PreparedStatement pst = conn.prepareStatement(sql);
                 pst.execute();
@@ -332,12 +390,30 @@ public class Stok extends javax.swing.JFrame {
         kosong();
     }//GEN-LAST:event_bt_clearActionPerformed
 
+    private void bt_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_closeActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_closeActionPerformed
+
+    private void bt_minimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_minimizeActionPerformed
+        // TODO add your handling code here:
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_bt_minimizeActionPerformed
+
+    private void bt_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_backActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Admin_Menu().setVisible(true);
+    }//GEN-LAST:event_bt_backActionPerformed
+
     private void kosong() {
         tb_matauang.setText("");
         tb_satuan.setText("0");
         tb_puluhan.setText("0");
         tb_ratusan.setText("0");
-        kurs_lama = null;
+        lb_satuan.setText("");
+        lb_puluhan.setText("");
+        lb_ratusan.setText("");
     }
 
     private void load_table() {
@@ -396,16 +472,19 @@ public class Stok extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Stok().setVisible(true);
-                lb_satuan.setVisible(false);
-                lb_puluhan.setVisible(false);
-                lb_ratusan.setVisible(false);
+                lb_satuan.setText("");
+                lb_puluhan.setText("");
+                lb_ratusan.setText("");
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_back;
     private javax.swing.JButton bt_clear;
+    private javax.swing.JButton bt_close;
     private javax.swing.JButton bt_edit_stok;
+    private javax.swing.JButton bt_minimize;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -413,6 +492,7 @@ public class Stok extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JLabel lb_puluhan;
     private static javax.swing.JLabel lb_ratusan;
