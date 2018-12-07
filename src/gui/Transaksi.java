@@ -365,6 +365,11 @@ public class Transaksi extends javax.swing.JFrame {
                             + "\nPuluhan    : " + puluhan_keluar
                             + "\nRatusan    : " + ratusan_keluar
                             + "\n----------------------------------------------------------");
+                    tb_nik.setText("");
+                    tb_nama.setText("");
+                    cb_matauangawal.setSelectedIndex(0);
+                    tb_nominal.setText("");
+                    cb_matauangtujuan.setSelectedIndex(0);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, e.getMessage());
                 }
