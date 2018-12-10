@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Des 2018 pada 10.23
+-- Waktu pembuatan: 10 Des 2018 pada 10.43
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.2.12
 
@@ -40,8 +40,14 @@ CREATE TABLE `kurs` (
 --
 
 INSERT INTO `kurs` (`ID_KURS`, `KURS_JUAL`, `KURS_TENGAH`, `KURS_BELI`) VALUES
+('AUD', 10484, 10444, 10404),
+('CAD', 10972, 10932, 10892),
+('EUR', 16499, 16449, 16399),
+('GBP', 18476, 18426, 18376),
 ('IDR', 0, 0, 0),
-('USD', 14258, 14250, 14242);
+('JPY', 129.88, 128.18, 126.48),
+('SGD', 10584, 10560, 10536),
+('USD', 14473, 14465, 14457);
 
 -- --------------------------------------------------------
 
@@ -61,8 +67,14 @@ CREATE TABLE `stok` (
 --
 
 INSERT INTO `stok` (`ID_KURS`, `SATUAN`, `PULUHAN`, `RATUSAN`) VALUES
-('IDR', 1, 1, 1),
-('USD', 1, 1, 1);
+('AUD', 100, 100, 100),
+('CAD', 100, 100, 100),
+('EUR', 100, 100, 100),
+('GBP', 100, 100, 100),
+('IDR', 100, 100, 100),
+('JPY', 100, 100, 100),
+('SGD', 100, 100, 100),
+('USD', 100, 100, 100);
 
 -- --------------------------------------------------------
 
@@ -80,13 +92,6 @@ CREATE TABLE `transaksi` (
   `NOMINAL_TUKAR` float DEFAULT NULL,
   `TGL_TRANSAKSI` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `transaksi`
---
-
-INSERT INTO `transaksi` (`ID_TRANSAKSI`, `NIK`, `NAMA`, `MATAUANG_AWAL`, `NOMINAL_AWAL`, `MATAUANG_TUKAR`, `NOMINAL_TUKAR`, `TGL_TRANSAKSI`) VALUES
-(1, '3507130308980001', 'Reyhan', 'IDR', 100000, 'USD', 6.99, '2018-12-03 02:58:00');
 
 --
 -- Indexes for dumped tables
@@ -120,7 +125,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `ID_TRANSAKSI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_TRANSAKSI` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
